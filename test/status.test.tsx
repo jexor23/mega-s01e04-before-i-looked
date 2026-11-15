@@ -15,10 +15,11 @@ describe('status board', () => {
 
   it('links each night on disk to its digest with counts', async () => {
     const html = await (await createApp(config).request('/')).text();
+    expect(html).not.toContain('\uFFFD');
     expect(html).toContain('<a href="/digest/2026-10-28">2026-10-28</a>');
     expect(html).toContain('<a href="/digest/2026-10-27">2026-10-27</a>');
-    expect(html).toMatch(/2026-10-28<\/a>\s*ok 10 · retry 4 · fail 1/);
-    expect(html).toMatch(/2026-10-27<\/a>\s*ok 7 · retry 0 · fail 0/);
+    expect(html).toMatch(/2026-10-28<\/a>\s*ok 10 \u00b7 retry 4 \u00b7 fail 1/);
+    expect(html).toMatch(/2026-10-27<\/a>\s*ok 7 \u00b7 retry 0 \u00b7 fail 0/);
     expect(html.indexOf('2026-10-28</a>')).toBeLessThan(html.indexOf('2026-10-27</a>'));
   });
 
